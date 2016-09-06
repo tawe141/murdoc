@@ -6,8 +6,11 @@ var async = require('async')
 var rimraf = require('rimraf')
 var mkdirp = require('mkdirp')
 
+// md.use(require('markdown-it-katex'))
 var katex_inline_math_module = require('./katex_inline_math_module')
+var katex_display_math_module = require('./katex_display_math_module')
 md.use(katex_inline_math_module)
+md.use(katex_display_math_module)
 
 nunjucks.configure('templates', {
     autoescape: false
@@ -23,16 +26,12 @@ function clear_dist(callback) {
 function create_subdirs(callback) {
     dir.subdirs('./src', function(err, subdirs) {
         if (err) throw err
-
-        callback(
-            subdirs.map(function(p) {
-                fs.mkdir(p.replace('src', 'dist'), function(err) {
-                    if (err) throw err
-                })
-                return p
+        subdirs.map(function(p) {
+            fs.mkdir(p.replace('src', 'dist'), function(err) {
+                if (err) throw err
             })
-        )
-
+        })
+        callback()
     })
 }
 
@@ -41,9 +40,14 @@ function render_one_md(src_file_path) {
 
     fs.readFile(src_file_path, 'utf8', function(err, data) {
         if (err) throw err
-        fs.writeFile(dist_file_path, nunjucks.render('base.html', { markdown: md.render(data) }), function(err) {
-            if (err) throw err
-        })
+        fs.writeFile(dist_file_path,
+            nunjucks.render('base.html', {
+                markdown: md.render(data)
+            }),
+            function(err) {
+                if (err) throw err
+            }
+        )
     })
 }
 
