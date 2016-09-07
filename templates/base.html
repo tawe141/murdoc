@@ -5,9 +5,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Test Document</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css" />
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <div id="md-input">
+        <style>
+            .equation-label {
+                position: relative;
+                transform: translateY(100%);
+            }
+        </style>
+        <div id="md-input" class="container">
             {{ markdown }}
         </div>
     </body>
